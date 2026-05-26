@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Kelulusan | UPTD SDN 21 Sanggalea</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #0A3254;
+            --primary-light: #1A5A8F;
+            --accent-gold: #D4AF37;
+            --accent-green: #27AE60;
+            --accent-red: #C0392B;
+            --bg-color: #F4F7F6;
+            --card-bg: #FFFFFF;
+            --text-main: #2C3E50;
+            --text-muted: #7F8C8D;
+            --border-color: #E0E6ED;
+            --shadow: 0 10px 30px rgba(10, 50, 84, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #1A5A8F;
+            --bg-color: #121212;
+            --card-bg: #1E1E1E;
+            --text-main: #E0E0E0;
+            --text-muted: #A0A0A0;
+            --border-color: #333333;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; transition: var(--transition); }
+
+        .splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary-color); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease; }
+        .loader-logo { font-size: 4rem; animation: bounce 1s infinite alternate; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+
+        .theme-toggle { position: fixed; top: 20px; right: 20px; background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; box-shadow: var(--shadow); z-index: 100; transition: var(--transition); }
+        .theme-toggle:hover { transform: scale(1.1); }
+
+        .container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); padding: 40px; width: 100%; max-width: 550px; transition: var(--transition); border-top: 5px solid var(--primary-color); }
+        .hidden { display: none !important; }
+
+        .header-info { text-align: center; margin-bottom: 30px; }
+        .logo { width: 80px; margin-bottom: 15px; }
+        .header-info h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--primary-color); }
+        .header-info h2 { font-size: 1.1rem; font-weight: 600; margin-top: 5px; }
+        .academic-year { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+
+        .instruction { text-align: center; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-muted); }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-icon { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--text-muted); }
+        .input-group input { width: 100%; padding: 15px 15px 15px 45px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-color); color: var(--text-main); transition: var(--transition); }
+        .input-group input:focus { outline: none; border-color: var(--primary-color); background: var(--card-bg); }
+
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: var(--transition); }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+        .btn-secondary { background: #95A5A6; color: white; }
+        .btn-secondary:hover { background: #7F8C8D; }
+        .btn-gold { background: var(--accent-gold); color: white; }
+        .btn-gold:hover { background: #b8962e; transform: translateY(-2px); }
+        .action-buttons { display: flex; gap: 10px; margin-top: 30px; }
+
+        .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-message { background: #FDECEA; color: var(--accent-red); padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; font-size: 0.9rem; }
+
+        .print-header { display: none; text-align: center; margin-bottom: 20px; }
+        .student-profile { text-align: center; margin-bottom: 25px; }
+        .student-photo { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--border-color); object-fit: cover; }
+        .student-name { margin-top: 10px; font-size: 1.3rem; }
+        .badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white; margin-top: 5px; }
+        .badge-lulus { background: var(--accent-green); }
+        .badge-gagal { background: var(--accent-red); }
+
+        .detail-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .detail-table td { padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
+        .detail-table td:nth-child(1) { color: var(--text-muted); width: 40%; }
+        .detail-table td:nth-child(2) { width: 5%; text-align: center; }
+        .detail-table td:nth-child(3) { font-weight: 600; text-align: right; }
+
+        .status-message { text-align: center; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .msg-lulus { background: rgba(39, 174, 96, 0.1); color: var(--accent-green); }
+        .msg-gagal { background: rgba(192, 57, 43, 0.1); color: var(--accent-red); }
+
+        .footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem; }
+        .small-text { font-size: 0.8rem; opacity: 0.7; }
+
+        @media print {
+            body { background: white; color: black; }
+            .no-print { display: none !important; }
+            .card { box-shadow: none; border: none; max-width: 100%; padding: 0; }
+            .print-header { display: block; }
+            .student-photo { border-color: black; }
+            .detail-table td { border-bottom-color: #ddd; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+    
+    <div id="splash-screen" class="splash-screen">
+        <div class="loader-logo">🎓</div>
+        <h2>Memuat Aplikasi...</h2>
+    </div>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <main class="container">
+        <section id="search-section" class="card">
+            <div class="header-info">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" alt="Logo Sekolah" class="logo" onerror="this.src='https://via.placeholder.com/80?text=SD'">
+                <h1>PENGUMUMAN KELULUSAN SISWA</h1>
+                <h2>Asesmen Akhir Jenjang Sekolah (AAJS)</h2>
+                <h2>UPTD SDN 21 Sanggalea</h2>
+                <p class="academic-year">Tahun Pelajaran 2025/2026</p>
+            </div>
+
+            <div class="instruction">
+                <p>Silakan masukkan <strong>NISN</strong> atau <strong>Nomor Peserta</strong> untuk melihat hasil kelulusan.</p>
+            </div>
+
+            <form id="search-form">
+                <div class="input-group">
+                    <i class="fas fa-id-card input-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Contoh NISN: 3141298606 atau Nopes" required autocomplete="off">
+                </div>
+                <button type="submit" id="btn-submit" class="btn btn-primary">
+                    <span id="btn-text">Lihat Hasil</span>
+                    <span id="btn-spinner" class="spinner hidden"></span>
+                </button>
+            </form>
+
+            <div id="error-message" class="error-message hidden">
+                <i class="fas fa-exclamation-circle"></i> Data tidak ditemukan. Periksa kembali NISN/Nomor Peserta Anda.
+            </div>
+        </section>
+
+        <section id="result-section" class="card hidden">
+            <div class="print-header">
+                <h2>SURAT KETERANGAN LULUS (SKL) Sementara</h2>
+                <p>UPTD SDN 21 Sanggalea</p>
+                <hr>
+            </div>
+
+            <div class="student-profile">
+                <img id="res-foto" src="" alt="Foto Siswa" class="student-photo">
+                <h3 id="res-nama" class="student-name">-</h3>
+                <span id="res-badge" class="badge"></span>
+            </div>
+
+            <div class="student-details">
+                <table class="detail-table">
+                    <tr><td>NISN</td><td>:</td><td id="res-nisn">-</td></tr>
+                    <tr><td>Nomor Peserta</td><td>:</td><td id="res-nomor">-</td></tr>
+                    <tr><td>Sekolah Asal</td><td>:</td><td id="res-sekolah">-</td></tr>
+                </table>
+            </div>
+
+            <div id="status-message" class="status-message"></div>
+
+            <div class="action-buttons no-print">
+                <button id="btn-back" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</button>
+                <button id="btn-print" class="btn btn-gold"><i class="fas fa-print"></i> Cetak Dokumen</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer no-print">
+        <p>&copy; 2026 UPTD SDN 21 Sanggalea. All rights reserved.</p>
+        <p class="small-text">Sistem Informasi Kelulusan Digital</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // DATA KELULUSAN KELAS 6 UPTD SDN 21 SANGGALEA (TOTAL 80 SISWA - TANPA DATA TTL)
+        const studentsData = [
+            { "nisn": "3141298606", "nomorPeserta": "001-AAJS-SDN.21-2026", "nama": "A. Resky Milsha Putra", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=A.+Resky+Milsha+Putra&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0134481904", "nomorPeserta": "002-AAJS-SDN.21-2026", "nama": "Ahmad Yaqdan", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Ahmad+Yaqdan&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0143647053", "nomorPeserta": "003-AAJS-SDN.21-2026", "nama": "Alfira Yanti", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Alfira+Yanti&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0141340406", "nomorPeserta": "004-AAJS-SDN.21-2026", "nama": "Anggi Aulia Putri", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Anggi+Aulia+Putri&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0144427401", "nomorPeserta": "005-AAJS-SDN.21-2026", "nama": "Auradija Khumaerah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Auradija+Khumaerah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0138374027", "nomorPeserta": "006-AAJS-SDN.21-2026", "nama": "Ayman Gala Pranata", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "TIDAK LULUS", "foto": "https://ui-avatars.com/api/?name=Ayman+Gala+Pranata&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0136755873", "nomorPeserta": "007-AAJS-SDN.21-2026", "nama": "Fatin Shidqiyah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Fatin+Shidqiyah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0134739482", "nomorPeserta": "008-AAJS-SDN.21-2026", "nama": "FITA ASRI AZAHRA", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=FITA+ASRI+AZAHRA&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0145250033", "nomorPeserta": "009-AAJS-SDN.21-2026", "nama": "Khaira Azzahrah Lubna", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Khaira+Azzahrah+Lubna&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0135435743", "nomorPeserta": "010-AAJS-SDN.21-2026", "nama": "M.Yaslam Yassar", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=M.Yaslam+Yassar&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0135092528", "nomorPeserta": "011-AAJS-SDN.21-2026", "nama": "Muh. Aqil Ziqra", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Aqil+Ziqra&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0136449595", "nomorPeserta": "012-AAIS-SDN.21-2026", "nama": "Muh. Fadil", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "TIDAK LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Fadil&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0131638739", "nomorPeserta": "013-AAJS-SDN.21-2026", "nama": "Muh. Fahri", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Fahri&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0147806057", "nomorPeserta": "014-AAJS-SDN.21-2026", "nama": "Muh. Khalil Ilman", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Khalil+Ilman&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0136092908", "nomorPeserta": "015-AAJS-SDN.21-2026", "nama": "Muh. Nasywan Hadi", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Nasywan+Hadi&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3130812464", "nomorPeserta": "016-AAJS-SDN.21-2026", "nama": "Muh.Tawakkal", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.Tawakkal&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0137539213", "nomorPeserta": "017-AAJS-SDN.21-2026", "nama": "Muhammad Hafiz Syafwan", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Hafiz+Syafwan&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0147693222", "nomorPeserta": "018-AAJS-SDN.21-2026", "nama": "Muhammad Rezky Pratama", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Rezky+Pratama&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3141960948", "nomorPeserta": "019-AAJS-SDN.21-2026", "nama": "Nur Alya Nabilah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Nur+Alya+Nabilah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0143967014", "nomorPeserta": "020-AAJS-SDN.21-2026", "nama": "Nur Azmi Hail Takdir", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Nur+Azmi+Hail+Takdir&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3140077966", "nomorPeserta": "021-AAJS-SDN.21-2026", "nama": "Nuri Maulidia", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Nuri+Maulidia&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0131562652", "nomorPeserta": "022-AAJS-SDN.21-2026", "nama": "Palmaka", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Palmaka&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0146706861", "nomorPeserta": "023-AAJS-SDN.21-2026", "nama": "Qhumairah Dzikrah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Qhumairah+Dzikrah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3134234632", "nomorPeserta": "024-AAJS-SDN.21-2026", "nama": "Rizki Habibi", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Rizki+Habibi&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0132343551", "nomorPeserta": "025-AAJS-SDN.21-2026", "nama": "Syafira Azzahra", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Syafira+Azzahra&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3146177075", "nomorPeserta": "026-AAJS-SDN.21-2026", "nama": "Syaqiratul Syuhada", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Syaqiratul+Syuhada&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3145326337", "nomorPeserta": "027-AAJS-SDN.21-2026", "nama": "YASMIN MUMTAZAH Y", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=YASMIN+MUMTAZAH+Y&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0138417907", "nomorPeserta": "028-AAJS-SDN.21-2026", "nama": "A. Aulia Alya Azizah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=A.+Aulia+Alya+Azizah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0137657152", "nomorPeserta": "029-AAJS-SDN.21-2026", "nama": "Afiqah Qisya Arfah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Afiqah+Qisya+Arfah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3134927277", "nomorPeserta": "030-AAJS-SDN.21-2026", "nama": "AFZA KHAEYLA", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=AFZA+KHAEYLA&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3146008662", "nomorPeserta": "031-AAJS-SDN.21-2026", "nama": "Alfian Hidayat", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Alfian+Hidayat&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3140995414", "nomorPeserta": "032-AAJS-SDN.21-2026", "nama": "Andi Anindita Ayu Salsabila As", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Andi+Anindita+Ayu+Salsabila+As&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3144904331", "nomorPeserta": "033-AAJS-SDN.21-2026", "nama": "Asyraf Haerullah Azam", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Asyraf+Haerullah+Azam&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3135611314", "nomorPeserta": "034-AAJS-SDN.21-2026", "nama": "Azzahra Almaira Dalle", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Azzahra+Almaira+Dalle&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0141656218", "nomorPeserta": "035-AAJS-SDN.21-2026", "nama": "Fabian Muhammad DJ", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Fabian+Muhammad+DJ&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0148960769", "nomorPeserta": "036-AAJS-SDN.21-2026", "nama": "Fadil Pratama", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Fadil+Pratama&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3138242433", "nomorPeserta": "037-AAJS-SDN.21-2026", "nama": "Fadillah Alya Syafiqah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Fadillah+Alya+Syafiqah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0149205005", "nomorPeserta": "038-AAJS-SDN.21-2026", "nama": "Fikri Aditya Zaidan", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "TIDAK LULUS", "foto": "https://ui-avatars.com/api/?name=Fikri+Aditya+Zaidan&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0146078229", "nomorPeserta": "039-AAJS-SDN.21-2026", "nama": "Kiswah Buana A", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Kiswah+Buana+A&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0139007797", "nomorPeserta": "040-AAJS-SDN.21-2026", "nama": "Maharatu Asmaradewi Ismail", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Maharatu+Asmaradewi+Ismail&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0131336315", "nomorPeserta": "041-AAJS-SDN.21-2026", "nama": "Muh Fajar Aswar", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh+Fajar+Aswar&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3148417328", "nomorPeserta": "042-AAJS-SDN.21-2026", "nama": "Muh. Fachry Al Gazali. A", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "TIDAK LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Fachry+Al+Gazali.+A&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3137550819", "nomorPeserta": "043-AAJS-SDN.21-2026", "nama": "Muhammad Alfian", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "TIDAK LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Alfian&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3144875666", "nomorPeserta": "044-AAJS-SDN.21-2026", "nama": "Muhammad Alghazali", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Alghazali&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0134594392", "nomorPeserta": "045-AAJS-SDN.21-2026", "nama": "Muhammad Aras", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Aras&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3132632306", "nomorPeserta": "046-AAJS-SDN.21-2026", "nama": "Muhammad Bhilal", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Bhilal&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3141508574", "nomorPeserta": "047-AAJS-SDN.21-2026", "nama": "Muhammad Nur Alkautsar Aqram", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Nur+Alkautsar+Aqram&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0132811603", "nomorPeserta": "048-AAJS-SDN.21-2026", "nama": "NAQIA NASIFAH DAMSIR", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=NAQIA+NASIFAH+DAMSIR&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3138719794", "nomorPeserta": "049-AAJS-SDN.21-2026", "nama": "Naufal Mumtazam", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Naufal+Mumtazam&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3146219410", "nomorPeserta": "050-AAJS-SDN.21-2026", "nama": "Naura Nahdiva Syam", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Naura+Nahdiva+Syam&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3136632045", "nomorPeserta": "051-AAJS-SDN.21-2026", "nama": "Nurul Qadry", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Nurul+Qadry&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0142054261", "nomorPeserta": "052-AAJS-SDN.21-2026", "nama": "Rifai Aghib Akbar", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Rifai+Aghib+Akbar&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0146123431", "nomorPeserta": "053-AAJS-SDN.21-2026", "nama": "Tri Putri Titian", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Tri+Putri+Titian&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3132501746", "nomorPeserta": "054-AAJS-SDN.21-2026", "nama": "Ahmad Rhayaan", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Ahmad+Rhayaan&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0134130441", "nomorPeserta": "055-AAJS-SDN.21-2026", "nama": "Aisyah Zaskya Putri", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Aisyah+Zaskya+Putri&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3137707480", "nomorPeserta": "056-AAJS-SDN.21-2026", "nama": "Andi Sakariah Syam", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Andi+Sakariah+Syam&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0145978674", "nomorPeserta": "057-AAJS-SDN.21-2026", "nama": "Athifa Nur Fitriah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Athifa+Nur+Fitriah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3135716596", "nomorPeserta": "058-AAJS-SDN.21-2026", "nama": "Aulia Izzatunnisa", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Aulia+Izzatunnisa&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3147769245", "nomorPeserta": "059-AAJS-SDN.21-2026", "nama": "Balqis Anugrah Maulidyah", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Balqis+Anugrah+Maulidyah&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0149589585", "nomorPeserta": "060-AAJS-SDN.21-2026", "nama": "Fathur Yanuar", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Fathur+Yanuar&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0141928666", "nomorPeserta": "061-AAJS-SDN.21-2026", "nama": "Fayz Maulana", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Fayz+Maulana&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3139386194", "nomorPeserta": "062-AAJS-SDN.21-2026", "nama": "Jihan Alvisa Pratiwi", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Jihan+Alvisa+Pratiwi&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0143489194", "nomorPeserta": "063-AAJS-SDN.21-2026", "nama": "Mizrah Abi Hendriani", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Mizrah+Abi+Hendriani&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0148006779", "nomorPeserta": "064-AAJS-SDN.21-2026", "nama": "Muh Furqaan Al-Ghazali", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh+Furqaan+Al-Ghazali&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0141537731", "nomorPeserta": "065-AAJS-SDN.21-2026", "nama": "MUH RIZKY ALFIANSYAH", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=MUH+RIZKY+ALFIANSYAH&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0148936304", "nomorPeserta": "066-AAJS-SDN.21-2026", "nama": "MUH. ADITYA WIHEN", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=MUH.+ADITYA+WIHEN&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0148374717", "nomorPeserta": "067-AAJS-SDN.21-2026", "nama": "Muh. Fajri Syahdan Naufal", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Fajri+Syahdan+Naufal&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3139806015", "nomorPeserta": "068-AAJS-SDN.21-2026", "nama": "Muh. Restu", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Restu&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3147830266", "nomorPeserta": "069-AAJS-SDN.21-2026", "nama": "Muh. Rijal", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.+Rijal&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3132632533", "nomorPeserta": "070-AAJS-SDN.21-2026", "nama": "Muh.Takbir Ilham", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muh.Takbir+Ilham&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3131539964", "nomorPeserta": "071-AAJS-SDN.21-2026", "nama": "Muhammad Aidhil Fajriyan", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Muhammad+Aidhil+Fajriyan&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0139201037", "nomorPeserta": "072-AAJS-SDN.21-2026", "nama": "MUHAMMAD BILAL FATH A", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=MUHAMMAD+BILAL+FATH+A&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0134495899", "nomorPeserta": "073-AAJS-SDN.21-2026", "nama": "Musdalifa", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Musdalifa&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0135086765", "nomorPeserta": "074-AAIS-SDN.21-2026", "nama": "Musfira Ramadhani", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Musfira+Ramadhani&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0143595306", "nomorPeserta": "075-AAJS-SDN.21-2026", "nama": "Nur Assyifa Rasdhy", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Nur+Assyifa+Rasdhy&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0146156652", "nomorPeserta": "076-AAJS-SDN.21-2026", "nama": "Nur Halisa", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Nur+Halisa&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0137564812", "nomorPeserta": "077-AAJS-SDN.21-2026", "nama": "Salsabila", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Salsabila&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0131891791", "nomorPeserta": "078-AAJS-SDN.21-2026", "nama": "Syahirah Azzahra", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Syahirah+Azzahra&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "3146930196", "nomorPeserta": "079-AAJS-SDN.21-2026", "nama": "Zea Mays Jalapa", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=Zea+Mays+Jalapa&background=0D8ABC&color=fff&size=150" },
+            { "nisn": "0138877867", "nomorPeserta": "080-AAJS-SDN.21-2026", "nama": "ZULFADHLI FAYYAD", "sekolah": "UPTD SDN 21 Sanggalea", "tahunAjaran": "2025/2026", "status": "LULUS", "foto": "https://ui-avatars.com/api/?name=ZULFADHLI+FAYYAD&background=0D8ABC&color=fff&size=150" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('splash-screen');
+            const searchForm = document.getElementById('search-form');
+            const searchInput = document.getElementById('searchInput');
+            const searchSection = document.getElementById('search-section');
+            const resultSection = document.getElementById('result-section');
+            const errorMessage = document.getElementById('error-message');
+            const btnSubmit = document.getElementById('btn-submit');
+            const btnText = document.getElementById('btn-text');
+            const btnSpinner = document.getElementById('btn-spinner');
+            const btnBack = document.getElementById('btn-back');
+            const btnPrint = document.getElementById('btn-print');
+            const themeToggle = document.getElementById('theme-toggle');
+
+            // Hapus splash screen setelah aplikasi siap
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                setTimeout(() => splashScreen.classList.add('hidden'), 500);
+            }, 800);
+
+            // Handle Pencarian
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = searchInput.value.trim().toLowerCase();
+                if (query === "") return;
+
+                btnText.classList.add('hidden');
+                btnSpinner.classList.remove('hidden');
+                btnSubmit.disabled = true;
+                errorMessage.classList.add('hidden');
+
+                setTimeout(() => {
+                    const student = studentsData.find(s => 
+                        s.nisn.toLowerCase() === query || 
+                        s.nomorPeserta.toLowerCase() === query
+                    );
+
+                    if (student) {
+                        displayResult(student);
+                    } else {
+                        errorMessage.classList.remove('hidden');
+                    }
+
+                    btnText.classList.remove('hidden');
+                    btnSpinner.classList.add('hidden');
+                    btnSubmit.disabled = false;
+                }, 1000);
+            });
+
+            // Tampilkan Hasil (Fungsi diubah agar tidak memanggil TTL)
+            function displayResult(student) {
+                document.getElementById('res-foto').src = student.foto;
+                document.getElementById('res-nama').textContent = student.nama;
+                document.getElementById('res-nisn').textContent = student.nisn;
+                document.getElementById('res-nomor').textContent = student.nomorPeserta;
+                document.getElementById('res-sekolah').textContent = student.sekolah; // Tampilkan sekolah asal, hilangkan TTL
+
+                const badge = document.getElementById('res-badge');
+                const statusMsg = document.getElementById('status-message');
+
+                if (student.status.toUpperCase() === "LULUS") {
+                    badge.textContent = "LULUS";
+                    badge.className = "badge badge-lulus";
+                    statusMsg.innerHTML = "🎉 SELAMAT! Anda dinyatakan LULUS Asesmen Akhir Jenjang Sekolah.";
+                    statusMsg.className = "status-message msg-lulus";
+                    triggerConfetti();
+                } else {
+                    badge.textContent = "TIDAK LULUS";
+                    badge.className = "badge badge-gagal";
+                    statusMsg.innerHTML = "Mohon maaf, Anda dinyatakan TIDAK LULUS.";
+                    statusMsg.className = "status-message msg-gagal";
+                }
+
+                searchSection.classList.add('hidden');
+                resultSection.classList.remove('hidden');
+            }
+
+            // Animasi Confetti Selebrasi
+            function triggerConfetti() {
+                var duration = 3 * 1000;
+                var animationEnd = Date.now() + duration;
+                var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+                function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+                var interval = setInterval(function() {
+                    var timeLeft = animationEnd - Date.now();
+                    if (timeLeft <= 0) return clearInterval(interval);
+                    var particleCount = 50 * (timeLeft / duration);
+                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                }, 250);
+            }
+
+            // Tombol Kembali & Cetak
+            btnBack.addEventListener('click', () => {
+                resultSection.classList.add('hidden');
+                searchSection.classList.remove('hidden');
+                searchInput.value = "";
+                searchInput.focus();
+            });
+            btnPrint.addEventListener('click', () => window.print());
+
+            // Fitur Dark Mode Toggle
+            themeToggle.addEventListener('click', () => {
+                const body = document.body;
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.removeAttribute('data-theme');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+
+            // Proteksi Sederhana Anti Inspect Element klik kanan
+            document.addEventListener('keydown', function(e) {
+                if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
